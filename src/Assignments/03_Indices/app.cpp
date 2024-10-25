@@ -63,7 +63,7 @@ void SimpleShapeApplication::init() {
     OGL_CALL(glNamedBufferData(v_buffer_handle, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW));
 
     GLuint i_buffer_handle;
-    OGL_CALL(glGenBuffers(1, &i_buffer_handle));
+    OGL_CALL(glCreateBuffers(1, &i_buffer_handle));
     OGL_CALL(glNamedBufferData(i_buffer_handle, indices.size() * sizeof(GLubyte), indices.data(), GL_STATIC_DRAW));
 
     // This sets up a Vertex Array Object (VAO) that encapsulates
