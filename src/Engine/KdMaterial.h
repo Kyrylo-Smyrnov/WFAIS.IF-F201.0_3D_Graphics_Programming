@@ -6,6 +6,7 @@ namespace xe {
 class KdMaterial : public AbstractMaterial<KdMaterial> {
     public:
         KdMaterial(const glm::vec4 &Kd);
+        KdMaterial(const glm::vec4 &Kd, const GLuint texture);
 
         static void init();
         void bind() const override;
@@ -17,6 +18,10 @@ class KdMaterial : public AbstractMaterial<KdMaterial> {
         // bool is not perceived by shader, so
         // I had to replace with int (maybe the problem is about my computer).
         int use_vertex_colors_;
+        int use_Kd_map_;
+
+        static GLint map_Kd_location;
+        GLuint texture_;
     };
     
 }
