@@ -4,6 +4,21 @@ xe::KdMaterial::KdMaterial(const glm::vec4 &Kd) : Kd_(Kd), use_vertex_colors_(0)
 
 xe::KdMaterial::KdMaterial(const glm::vec4 &Kd, const GLuint texture) : Kd_(Kd), texture_(texture) {}
 
+xe::Material *xe::KdMaterial::create_from_mtl(const mtl_material_t &mat, std::string mtl_dir) {
+     glm::vec4 color = xe::get_color(mat.diffuse);
+     SPDLOG_DEBUG("Adding ColorMaterial {}", glm::to_string(color));
+     auto material = new xe::KdMaterial(color);
+     if (!mat.diffuse_texname.empty()) {
+         auto texture = xe::create_texture(mtl_dir + "/" + mat.diffuse_texname, true);
+         SPDLOG_DEBUG("Adding Texture {} {:1d}", mat.diffuse_texname, texture);
+         if (texture > 0) {
+             material->set_texture(texture);
+         }
+     }
+
+     return material;
+}
+
 GLint xe::KdMaterial::map_Kd_location = -1;
 
 void xe::KdMaterial::init() {
@@ -15,6 +30,12 @@ void xe::KdMaterial::init() {
     if (map_Kd_location == -1) {
         SPDLOG_WARN("Cannot find map_Kd uniform");
     }
+
+    xe::add_mat_function("KdMaterial", KdMaterial::create_from_mtl);
+}
+
+void xe::KdMaterial::set_texture(GLint texture) {
+    texture_ = texture;
 }
 
 void xe::KdMaterial::bind() const {
