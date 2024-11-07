@@ -90,7 +90,6 @@ void SimpleShapeApplication::init() {
     };
 
     xe::KdMaterial::init();
-    auto kd_white_material = new xe::KdMaterial(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
     auto blue_marble = xe::load_mesh_from_obj("Models/blue_marble.obj", "Models");
     add_mesh(blue_marble);
